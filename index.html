@@ -83,7 +83,7 @@
       
       <div class="absolute inset-0 flex items-center justify-center text-center px-6 z-10">
         <div>
-          <div class="inline-flex items-center gap-4 bg-white/10 backdrop-trasnsparent-xl px-10 py-4 rounded-3xl border border-yellow-400/30 mb-6">
+          <div class="inline-flex items-center gap-4 bg-white/10 backdrop-transparent-xl px-10 py-4 rounded-3xl border border-yellow-400/30 mb-6">
             <span class="text-5xl">🌙</span>
             <h1 class="title text-6xl md:text-7xl font-bold tracking-widest gold-text">Eid Mubarak Memoona</h1>
             <span class="text-5xl">🪔</span>
@@ -103,7 +103,7 @@
         </div>
         <div class="text-center md:col-span-1">
           <div class="text-8xl mb-6 animate-pulse">💖</div>
-          <h2 class="title text-4xl font-bold mb-3 gold-text">Your surprise Eid gift is waiting for you</h2>
+          <h2 class="title text-4xl font-bold mb-3 gold-text">Your Eid gift is waiting for you</h2>
         </div>
         <div class="text-center">
           <img src="pic3.jpg" 
@@ -140,11 +140,9 @@
     </footer>
   </div>
 
-  <!-- Success Screen - Fixed & Clean -->
+  <!-- Success Screen -->
   <div id="successScreen" class="hidden fixed inset-0 bg-black/95 z-[2000] flex items-center justify-center p-4">
     <div class="bg-zinc-950 border border-yellow-400/30 rounded-3xl max-w-[380px] w-full p-8 text-center shadow-2xl overflow-hidden" id="successCard">
-      
-      <!-- Confetti Container -->
       <div id="confetti" class="absolute inset-0 pointer-events-none"></div>
 
       <div class="relative z-10">
@@ -153,7 +151,7 @@
         <h2 class="title text-4xl font-bold mb-4 gold-text">Eidi Sent Successfully!</h2>
         
         <p class="text-pink-300 text-lg mb-2">Eidi has been sent to your number ❤️</p>
-        <p class="text-amber-200 text-base mb-9">Eid Mubarak Memoona — enjoy your day and sorry for being late!</p>
+        <p class="text-amber-200 text-base mb-9">Eid Mubarak Memoona — enjoy your day!</p>
 
         <div class="flex justify-center mb-9">
           <img src="pic2.jpg" 
@@ -200,13 +198,18 @@
       document.getElementById('successScreen').classList.add('hidden');
     }
 
-    // Form Submit
+    // Form Submit with Number Validation
     document.getElementById('wishForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      
+      const input = document.getElementById('phoneNumber');
+      const enteredNumber = input.value.trim();
+      const correctNumber = "03221464138";
       
       const btn = document.getElementById('submitBtn');
       const originalHTML = btn.innerHTML;
 
+      // Show loading
       btn.innerHTML = `
         <svg class="animate-spin h-8 w-8 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -216,12 +219,19 @@
       btn.disabled = true;
 
       setTimeout(() => {
-        document.getElementById('successScreen').classList.remove('hidden');
-        createConfetti();
-        
+        if (enteredNumber === correctNumber) {
+          // Correct number → Show success
+          document.getElementById('successScreen').classList.remove('hidden');
+          createConfetti();
+        } else {
+          // Wrong number → Show error
+          alert("❌ Wrong number!\n\nPlease enter your number");
+        }
+
+        // Reset button
         btn.innerHTML = originalHTML;
         btn.disabled = false;
-      }, 1400);
+      }, 1200);
     });
   </script>
 </body>
